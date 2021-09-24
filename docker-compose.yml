@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  proxy:
+    build: ./proxy
+    container_name: proxy
+    stdin_open: true
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - default
+      - proxy
+    depends_on:
+      - app
+  app:
+    build: .
+    container_name: app
+    stdin_open: true
+    tty: true
+    networks:
+      - proxy
+    volumes:
+      - .:/root/app
+networks:
+  proxy:
+    driver: bridge
