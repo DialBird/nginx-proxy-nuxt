@@ -18,6 +18,8 @@ services:
       - proxy
     depends_on:
       - app
+    volumes:
+      - ~/ssl:/etc/ssl
   app:
     build: .
     container_name: app
